@@ -1,4 +1,3 @@
-
 #if __has_include("RCTBridgeModule.h")
 #import "RCTBridgeModule.h"
 #else
@@ -6,7 +5,7 @@
 #endif
 
 #import <UIKit/UIKit.h>
-@import iOSPhotoEditor;
+@protocol PhotoEditorDelegate;
 
 @interface RNPhotoEditor : NSObject <RCTBridgeModule, PhotoEditorDelegate>
 
