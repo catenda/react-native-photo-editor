@@ -1,5 +1,6 @@
-
 #import "RNPhotoEditor.h"
+
+#import <RNPhotoEditor/RNPhotoEditor-Swift.h>
 
 @implementation RNPhotoEditor
 
@@ -16,7 +17,6 @@ RCTResponseSenderBlock _onCancelEditing = nil;
 
 - (void)doneEditingWithImage:(UIImage *)image {
     if (_onDoneEditing == nil) return;
-    
     NSError* error;
 
     BOOL isPNG = [_editImagePath.pathExtension.lowercaseString isEqualToString:@"png"];
@@ -30,8 +30,8 @@ RCTResponseSenderBlock _onCancelEditing = nil;
     [isPNG ? UIImagePNGRepresentation(image) : UIImageJPEGRepresentation(image, 0.8) writeToFile:path options:NSDataWritingAtomic error:&error];
 
     if (error != nil)
-        NSLog(@"write error %@", error); 
-   
+        NSLog(@"write error %@", error);
+
     _onDoneEditing(@[]);
 }
 
@@ -42,7 +42,6 @@ RCTResponseSenderBlock _onCancelEditing = nil;
 }
 
 RCT_EXPORT_METHOD(Edit:(nonnull NSDictionary *)props onDone:(RCTResponseSenderBlock)onDone onCancel:(RCTResponseSenderBlock)onCancel) {
-
     dispatch_async(dispatch_get_main_queue(), ^{
         _editImagePath = [props objectForKey: @"path"];
 
@@ -94,11 +93,11 @@ RCT_EXPORT_METHOD(Edit:(nonnull NSDictionary *)props onDone:(RCTResponseSenderBl
 
         // Invoke Editor
         photoEditor.photoEditorDelegate = self;
-	
-	// The default modal presenting is page sheet in ios 13, not full screen
-	if (@available(iOS 13, *)) {
-            [photoEditor setModalPresentationStyle: UIModalPresentationFullScreen];
-        }
+
+     // The default modal presenting is page sheet in ios 13, not full screen
+    if (@available(iOS 13, *)) {
+        [photoEditor setModalPresentationStyle: UIModalPresentationFullScreen];
+    }
 
         id<UIApplicationDelegate> app = [[UIApplication sharedApplication] delegate];
         UINavigationController *rootViewController = ((UINavigationController*) app.window.rootViewController);
